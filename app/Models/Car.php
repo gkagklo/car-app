@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Model as EloquentModel;
 
-class Car extends Model
+class Car extends EloquentModel
 {
 
     protected $fillable = [
@@ -21,10 +21,11 @@ class Car extends Model
         'city_id',
         'address',
         'phone',
-        'description'
+        'description',
+        'published'
     ];
 
-    public function features()
+    public function carFeature()
     {
         return $this->hasOne(CarFeatures::class);
     }
@@ -42,5 +43,15 @@ class Car extends Model
     public function carType()
     {
         return $this->belongsTo(CarType::class);
+    }
+
+    public function maker()
+    {
+        return $this->belongsTo(Maker::class);
+    }
+
+    public function model()
+    {
+        return $this->belongsTo(Model::class);
     }
 }

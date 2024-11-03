@@ -1,7 +1,7 @@
 <x-app-layout title="Create New Car" bodyClass="page-new-car">
 <main>
     <div class="container-small">
-      <h1 class="car-details-page-title">Add new car</h1>
+      <h1 class="car-details-page-title">Add New Car</h1>
       <form
         action="{{ route('car.store') }}"
         method="POST"
@@ -279,12 +279,12 @@
               <label>Detailed Description</label>
               <textarea name="description" rows="10"></textarea>
             </div>
-            {{-- <div class="form-group">
+            <div class="form-group">
               <label class="checkbox">
-                <input type="checkbox" name="published" />
+                <input type="checkbox" name="published" value="1"/>
                 Published
               </label>
-            </div> --}}
+            </div>
           </div>
           <div class="form-images">
             <div class="form-image-upload">

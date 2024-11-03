@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string('address', 255);
             $table->string('phone', 45);
             $table->longText('description')->nullable();
-            $table->timestamp('published_at')->nullable();
+            $table->boolean('published')->default(0);
             $table->timestamps();
             $table->timestamp('deleted_at')->nullable();
         });

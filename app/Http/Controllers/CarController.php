@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CarStoreRequest;
+use App\Http\Requests\CarUpdateRequest;
 use App\Models\Car;
 use App\Models\CarFeatures;
 use App\Models\CarImages;
@@ -22,7 +23,8 @@ class CarController extends Controller
      */
     public function index()
     {
-        return view('car.index');
+        $my_cars = Car::orderBy("created_at", "desc")->get();
+        return view('car.index', compact('my_cars'));
     }
 
     /**
@@ -101,17 +103,41 @@ class CarController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Car $car)
     {
-        return view('car.edit');
+        $makers = Maker::all();
+        $models = Model::where("maker_id", $car->maker_id)->get();
+        $car_types = CarType::all();
+        $fuel_types = FuelType::all();
+        $states = State::all();
+        $cities = City::where("state_id", $car->state_id)->get();
+        $car_images = CarImages::where("car_id", $car->id)->get();
+        $car = Car::find($car->id);
+        return view('car.edit', compact('car', 'car_types', 'makers', 'models', 'fuel_types','states', 'cities', 'car_images'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(CarUpdateRequest $request, Car $car)
     {
-        //
+        $car->update($request->validated());
+        
+        CarFeatures::where("car_id", $car->id)->update([
+            'abs'=> $request->abs ?? 0,
+            'air_conditioning'=> $request->air_conditioning ?? 0,
+            'power_windows'=> $request->power_windows ?? 0,
+            'power_door_locks'=> $request->power_door_locks ?? 0,
+            'cruise_control'=> $request->cruise_control ?? 0,
+            'bluetooth_connectivity'=> $request->bluetooth_connectivity ?? 0,
+            'remote_start'=> $request->remote_start ?? 0,
+            'gps_navigation'=> $request->gps_navigation ?? 0,
+            'heated_seats'=> $request->heated_seats ?? 0,
+            'climate_control'=> $request->climate_control ?? 0,
+            'rear_parking_sensors'=> $request->rear_parking_sensors ?? 0,
+            'leather_seats'=> $request->leather_seats ?? 0,
+        ]);
+        return redirect()->back();
     }
 
     /**
@@ -151,6 +177,11 @@ class CarController extends Controller
                                 ->get(["name", "id"]);
   
         return response()->json($data);
+    }
+
+    public function editCarImages()
+    {
+        return view('car.car_images');
     }
     
 }
