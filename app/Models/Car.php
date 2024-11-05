@@ -35,6 +35,11 @@ class Car extends EloquentModel
         return $this->hasOne(CarImages::class)->oldestOfMany('position');
     }
 
+    public function latestImage()
+    {
+        return $this->hasOne(CarImages::class)->latestOfMany('position');
+    }
+
     public function images()
     {
         return $this->hasMany(CarImages::class);

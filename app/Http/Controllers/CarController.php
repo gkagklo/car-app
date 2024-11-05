@@ -15,6 +15,7 @@ use App\Models\Model;
 use App\Models\State;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\File;
 
 class CarController extends Controller
 {
@@ -146,7 +147,16 @@ class CarController extends Controller
      */
     public function destroy(string $id)
     {
-        dd("delete");
+        $car = Car::find($id);
+        $images = $car->images;
+        foreach($images as $image){
+            $file_path = public_path().'/images/'.$image->name;
+            File::delete($file_path);
+        }
+        $car->images()->delete();
+        $car->carFeature()->delete();
+        $car->delete();
+        
     }
 
     public function search()
@@ -188,4 +198,65 @@ class CarController extends Controller
         return view('car.car_images', compact('car_images','car_info'));
     }
     
+    public function updateCarImages(Request $request, $id)
+    {
+        $index = 0;
+        $car_images = CarImages::where("car_id", $id)->orderBy("position")->get();
+        foreach($car_images as $car_image){
+            $car_image->update([
+                'position' => $request->positions[$index]
+            ]);
+            $index++;
+        }
+       
+        //Delete images on table
+        if($request->delete_images){
+            $deletedImagesIds = $request->delete_images;
+            foreach($deletedImagesIds as $imageId){
+                $image_name = CarImages::where('id', $imageId)->first()->name;
+                //Delete image from public folder
+                $file_path = public_path().'/images/'.$image_name;
+                File::delete($file_path);
+                CarImages::find($imageId)->delete();
+            }
+        }
+
+        return redirect()->back();
+    }
+
+    public function carImageCreate(Request $request, $id)
+    {
+        $car = Car::find($id);
+        $latestPosition = $car->latestImage->position;
+        
+        // Validate incoming request data
+        $request->validate([
+            'images' => 'required|array',
+            'images.*' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        // Initialize an array to store image information
+        $images = [];
+
+        // Process each uploaded image
+        foreach($request->file('images') as $image) {
+            $latestPosition++;
+            // Generate a unique name for the image
+            $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
+              
+            // Move the image to the desired location
+            $image->move(public_path('images'), $imageName);
+  
+            // Add image information to the array
+            $images[] = ['name' => $imageName, 'car_id' => $id, 'position' => $latestPosition];
+        }
+  
+        // Store images in the database using create method
+        foreach ($images as $imageData) {
+            CarImages::create($imageData);
+        }
+
+        return redirect()->back();
+    }
+
 }

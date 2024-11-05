@@ -27,7 +27,7 @@
                         </td>
                         <td>{{ $my_car->year }} - {{ $my_car->maker->name }} {{ $my_car->model->name }}</td>
                         <td>{{ $my_car->created_at }}</td>
-                        <td>@if($my_car->published_at == 0) No @else Yes @endif</td>
+                        <td>@if($my_car->published == 0) No @else Yes @endif</td>
                         <td class="">
                           <a
                             href="{{ route("car.edit", $my_car->id)}}"
@@ -71,7 +71,7 @@
                             Images
                           </a>
                           <form action="{{ route('car.destroy',$my_car->id) }}" method="POST">
-                            <button class="btn btn-delete inline-flex items-center">
+                            <a class="btn btn-delete inline-flex items-center" onclick="return confirm('Are you sure?')">
                               @csrf
                               @method('DELETE')
 
@@ -91,7 +91,7 @@
                               </svg>
       
                               Delete
-                            </button>
+                            </a>
                           </form>
                         </td>
                       </tr>

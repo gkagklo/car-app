@@ -22,6 +22,8 @@ Route::middleware('auth')->group(function () {
     Route::post('api/fetch-models', [CarController::class, 'fetchModel']);
     Route::post('api/fetch-cities', [CarController::class, 'fetchCity']);
     Route::get('/car/{id}/edit/car_images', [CarController::class,'editCarImages'])->name('car_images');
+    Route::put('/car/{id}/edit/car_images/update', [CarController::class, 'updateCarImages'])->name('updateCarImages');
+    Route::post('/car/{id}/create/car_images', [CarController::class,'carImageCreate'])->name('carImageCreate');
 });
 
 require __DIR__.'/auth.php';

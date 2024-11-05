@@ -8,10 +8,12 @@
   
             <div class="car-images-wrapper">
               <form
-                action=""
+                action="{{ route('updateCarImages', $car_info->id) }}"
                 method="POST"
                 class="card p-medium form-update-images"
               >
+              @csrf
+              @method('PUT')
                 <div class="table-responsive">
                   <table class="table">
                     <thead>
@@ -29,7 +31,7 @@
                               type="checkbox"
                               name="delete_images[]"
                               id="delete_image_1"
-                              value="1"
+                              value="{{$car_image->id}}"
                             />
                           </td>
                           <td>
@@ -43,7 +45,7 @@
                           <td>
                             <input
                               type="number"
-                              name="position"
+                              name="positions[]"
                               value="{{ $car_image->position }}"
                               style="width: 80px"
                             />
@@ -61,11 +63,12 @@
                 </div>
               </form>
               <form
-                action=""
+                action="{{ route('carImageCreate', $car_info->id )}}"
                 method="POST"
                 enctype="multipart/form-data"
                 class="card form-images p-medium mb-large"
               >
+              @csrf
                 <div class="form-image-upload">
                   <div class="upload-placeholder">
                     <svg
@@ -90,6 +93,9 @@
                     multiple
                     accept="image/*"
                   />
+                  @error('images')
+                    <p class="text-error">{{ $message }}</p>
+                  @enderror
                 </div>
                 <div id="imagePreviews" class="car-form-images"></div>
   
