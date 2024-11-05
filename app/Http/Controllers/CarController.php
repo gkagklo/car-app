@@ -45,7 +45,7 @@ class CarController extends Controller
      */
     public function store(CarStoreRequest $request)
     {
-       
+        
         $car = Car::create($request->validated());
         CarFeatures::create([
             'car_id'=> $car->id,
@@ -71,9 +71,10 @@ class CarController extends Controller
   
         // Initialize an array to store image information
         $images = [];
-  
+        $position = 0;
         // Process each uploaded image
         foreach($request->file('images') as $image) {
+            $position++;
             // Generate a unique name for the image
             $imageName = time() . '_' . uniqid() . '.' . $image->getClientOriginalExtension();
               
@@ -81,7 +82,7 @@ class CarController extends Controller
             $image->move(public_path('images'), $imageName);
   
             // Add image information to the array
-            $images[] = ['name' => $imageName, 'car_id' => $car->id];
+            $images[] = ['name' => $imageName, 'car_id' => $car->id, 'position' => $position];
         }
   
         // Store images in the database using create method
@@ -145,7 +146,7 @@ class CarController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        dd("delete");
     }
 
     public function search()
@@ -179,9 +180,12 @@ class CarController extends Controller
         return response()->json($data);
     }
 
-    public function editCarImages()
+    public function editCarImages($id)
     {
-        return view('car.car_images');
+        $car_info = Car::find($id);
+        // dd($car_info->year);
+        $car_images = CarImages::where("car_id", $id)->orderBy("position")->get();
+        return view('car.car_images', compact('car_images','car_info'));
     }
     
 }

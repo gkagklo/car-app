@@ -11,6 +11,7 @@ class CarImages extends Model
   
     protected $fillable = [
         'name',
-        'car_id'
+        'car_id',
+        'position'
     ];
 }

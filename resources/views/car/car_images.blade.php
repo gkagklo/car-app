@@ -3,7 +3,7 @@
         <div>
           <div class="container">
             <h1 class="car-details-page-title">
-              Manage Images for: 2016 - Lexus RX200t
+              Manage Images for: {{$car_info->year}} - {{ $car_info->maker->name }} {{ $car_info->model->name }}
             </h1>
   
             <div class="car-images-wrapper">
@@ -22,188 +22,34 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>
-                          <input
-                            type="checkbox"
-                            name="delete_images[]"
-                            id="delete_image_1"
-                            value="1"
-                          />
-                        </td>
-                        <td>
-                          <img
-                            src="/img/cars/Lexus-RX200t-2016/1.jpeg"
-                            alt=""
-                            class="my-cars-img-thumbnail"
-                            style="width: 120px"
-                          />
-                        </td>
-                        <td>
-                          <input
-                            type="number"
-                            name="positions[1]"
-                            value="1"
-                            style="width: 80px"
-                          />
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <input
-                            type="checkbox"
-                            name="delete_images[]"
-                            id="delete_image_2"
-                            value="2"
-                          />
-                        </td>
-                        <td>
-                          <img
-                            src="/img/cars/Lexus-RX200t-2016/2.jpeg"
-                            alt=""
-                            class="my-cars-img-thumbnail"
-                            style="width: 120px"
-                          />
-                        </td>
-                        <td>
-                          <input
-                            type="number"
-                            name="positions[2]"
-                            value="2"
-                            style="width: 80px"
-                          />
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <input
-                            type="checkbox"
-                            name="delete_images[]"
-                            id="delete_image_3"
-                            value="3"
-                          />
-                        </td>
-                        <td>
-                          <img
-                            src="/img/cars/Lexus-RX200t-2016/3.jpeg"
-                            alt=""
-                            class="my-cars-img-thumbnail"
-                            style="width: 120px"
-                          />
-                        </td>
-                        <td>
-                          <input
-                            type="number"
-                            name="positions[3]"
-                            value="3"
-                            style="width: 80px"
-                          />
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <input
-                            type="checkbox"
-                            name="delete_images[]"
-                            id="delete_image_4"
-                            value="4"
-                          />
-                        </td>
-                        <td>
-                          <img
-                            src="/img/cars/Lexus-RX200t-2016/4.jpeg"
-                            alt=""
-                            class="my-cars-img-thumbnail"
-                            style="width: 120px"
-                          />
-                        </td>
-                        <td>
-                          <input
-                            type="number"
-                            name="positions[4]"
-                            value="4"
-                            style="width: 80px"
-                          />
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <input
-                            type="checkbox"
-                            name="delete_images[]"
-                            id="delete_image_5"
-                            value="5"
-                          />
-                        </td>
-                        <td>
-                          <img
-                            src="/img/cars/Lexus-RX200t-2016/5.jpeg"
-                            alt=""
-                            class="my-cars-img-thumbnail"
-                            style="width: 120px"
-                          />
-                        </td>
-                        <td>
-                          <input
-                            type="number"
-                            name="positions[5]"
-                            value="5"
-                            style="width: 80px"
-                          />
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <input
-                            type="checkbox"
-                            name="delete_images[]"
-                            id="delete_image_6"
-                            value="6"
-                          />
-                        </td>
-                        <td>
-                          <img
-                            src="/img/cars/Lexus-RX200t-2016/6.jpeg"
-                            alt=""
-                            class="my-cars-img-thumbnail"
-                            style="width: 120px"
-                          />
-                        </td>
-                        <td>
-                          <input
-                            type="number"
-                            name="positions[6]"
-                            value="6"
-                            style="width: 80px"
-                          />
-                        </td>
-                      </tr>
-                      <tr>
-                        <td>
-                          <input
-                            type="checkbox"
-                            name="delete_images[]"
-                            id="delete_image_7"
-                            value="7"
-                          />
-                        </td>
-                        <td>
-                          <img
-                            src="/img/cars/Lexus-RX200t-2016/7.jpeg"
-                            alt=""
-                            class="my-cars-img-thumbnail"
-                            style="width: 120px"
-                          />
-                        </td>
-                        <td>
-                          <input
-                            type="number"
-                            name="positions[7]"
-                            value="7"
-                            style="width: 80px"
-                          />
-                        </td>
-                      </tr>
+                      @foreach($car_images as $car_image)
+                        <tr>
+                          <td>
+                            <input
+                              type="checkbox"
+                              name="delete_images[]"
+                              id="delete_image_1"
+                              value="1"
+                            />
+                          </td>
+                          <td>
+                            <img
+                              src="/images/{{$car_image->name}}"
+                              alt=""
+                              class="my-cars-img-thumbnail"
+                              style="width: 120px"
+                            />
+                          </td>
+                          <td>
+                            <input
+                              type="number"
+                              name="position"
+                              value="{{ $car_image->position }}"
+                              style="width: 80px"
+                            />
+                          </td>
+                        </tr>
+                      @endforeach
                     </tbody>
                   </table>
                 </div>

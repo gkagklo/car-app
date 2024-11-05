@@ -290,15 +290,16 @@
                 </div>
                 <div class="form-group">
                   <label class="checkbox">
-                    <input type="checkbox" name="published" @if($car->published == 1) checked @endif />
+                      <input type='hidden' value='0' name='published'>
+                      <input type="checkbox" name="published" value="1" @if($car->published == 1) checked @endif/>   
                     Published
                   </label>
                 </div>
               </div>
-              {{-- <div class="form-images">
+              <div class="form-images">
                 <p class="my-large">
                   Manage your images
-                  <a href="{{ route('car_images') }}">From here</a>
+                  <a href="{{ route('car_images', $car->id) }}">From here</a>
                 </p>
                 <div class="car-form-images">
                   @foreach($car_images as $car_image)
@@ -307,7 +308,7 @@
                     </a>
                   @endforeach
                 </div>
-              </div> --}}
+              </div>
             </div>
             <div class="p-medium" style="width: 100%">
               <div class="flex justify-end gap-1">
