@@ -50,6 +50,11 @@ class Car extends EloquentModel
         return $this->belongsTo(CarType::class);
     }
 
+    public function fuelType()
+    {
+        return $this->belongsTo(FuelType::class);
+    }
+
     public function maker()
     {
         return $this->belongsTo(Maker::class);
@@ -59,4 +64,15 @@ class Car extends EloquentModel
     {
         return $this->belongsTo(Model::class);
     }
+
+    public function state()
+    {
+        return $this->belongsTo(State::class);
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(City::class);
+    }
+
 }

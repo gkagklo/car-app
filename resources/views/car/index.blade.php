@@ -29,6 +29,9 @@
                         <td>{{ $my_car->created_at }}</td>
                         <td>@if($my_car->published == 0) No @else Yes @endif</td>
                         <td class="">
+                          <form action="{{ route('car.destroy',$my_car->id) }}" method="POST" onsubmit="return confirm('Are you sure?');">
+                            @csrf
+                            @method('DELETE')
                           <a
                             href="{{ route("car.edit", $my_car->id)}}"
                             class="btn btn-edit inline-flex items-center"
@@ -70,10 +73,9 @@
                             </svg>
                             Images
                           </a>
-                          <form action="{{ route('car.destroy',$my_car->id) }}" method="POST">
-                            <a class="btn btn-delete inline-flex items-center" onclick="return confirm('Are you sure?')">
-                              @csrf
-                              @method('DELETE')
+                          
+                            <button class="btn btn-delete inline-flex items-center">
+                              
 
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -91,7 +93,7 @@
                               </svg>
       
                               Delete
-                            </a>
+                            </button>
                           </form>
                         </td>
                       </tr>

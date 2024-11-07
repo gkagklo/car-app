@@ -16,6 +16,7 @@ use App\Models\State;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Gate;
 
 class CarController extends Controller
 {
@@ -24,7 +25,8 @@ class CarController extends Controller
      */
     public function index()
     {
-        $my_cars = Car::orderBy("created_at", "desc")->get();
+        $user_id = auth()->user()->id;
+        $my_cars = Car::where("user_id", $user_id)->orderBy("created_at", "desc")->get();
         return view('car.index', compact('my_cars'));
     }
 
@@ -107,6 +109,7 @@ class CarController extends Controller
      */
     public function edit(Car $car)
     {
+        Gate::authorize('update', $car);
         $makers = Maker::all();
         $models = Model::where("maker_id", $car->maker_id)->get();
         $car_types = CarType::all();
@@ -123,8 +126,8 @@ class CarController extends Controller
      */
     public function update(CarUpdateRequest $request, Car $car)
     {
-        $car->update($request->validated());
-        
+        Gate::authorize('update', $car);
+        $car->update($request->validated());   
         CarFeatures::where("car_id", $car->id)->update([
             'abs'=> $request->abs ?? 0,
             'air_conditioning'=> $request->air_conditioning ?? 0,
@@ -142,12 +145,10 @@ class CarController extends Controller
         return redirect()->back();
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Car $car)
     {
-        $car = Car::find($id);
+        Gate::authorize('delete', $car);
+        $car = Car::find($car->id);
         $images = $car->images;
         foreach($images as $image){
             $file_path = public_path().'/images/'.$image->name;
@@ -156,7 +157,6 @@ class CarController extends Controller
         $car->images()->delete();
         $car->carFeature()->delete();
         $car->delete();
-        
     }
 
     public function search()
