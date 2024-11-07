@@ -3,12 +3,12 @@
         <div>
           <div class="container">
             <h1 class="car-details-page-title">
-              Manage Images for: {{$car_info->year}} - {{ $car_info->maker->name }} {{ $car_info->model->name }}
+              Manage Images for: {{$car->year}} - {{ $car->maker->name }} {{ $car->model->name }}
             </h1>
   
             <div class="car-images-wrapper">
               <form
-                action="{{ route('updateCarImages', $car_info->id) }}"
+                action="{{ route('updateCarImages', $car->id) }}"
                 method="POST"
                 class="card p-medium form-update-images"
               >
@@ -63,7 +63,7 @@
                 </div>
               </form>
               <form
-                action="{{ route('carImageCreate', $car_info->id )}}"
+                action="{{ route('carImageCreate', $car->id )}}"
                 method="POST"
                 enctype="multipart/form-data"
                 class="card form-images p-medium mb-large"

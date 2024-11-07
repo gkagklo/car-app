@@ -1,28 +1,24 @@
 <x-app-layout title="Show Car" bodyClass="page-show-car">
     <main>
         <div class="container">
-          <h1 class="car-details-page-title">Lexus NX200t - 2016</h1>
-          <div class="car-details-region">New Jersey - 2 days ago</div>
+          <h1 class="car-details-page-title">{{ $car->maker->name }} {{ $car->model->name}} - {{ $car->year }}</h1>
+          <div class="car-details-region">{{ $car->state->name }} {{ $car->city->name }} - {{ $car->created_at }}</div>
   
           <div class="car-details-content">
             <div class="car-images-and-description">
               <div class="car-images-carousel">
                 <div class="car-image-wrapper">
                   <img
-                    src="/img/cars/Lexus-RX200t-2016/1.jpeg"
+                    src="/images/{{ $car->primaryImage->name }}"
                     alt=""
                     class="car-active-image"
                     id="activeImage"
                   />
                 </div>
                 <div class="car-image-thumbnails">
-                  <img src="/img/cars/Lexus-RX200t-2016/1.jpeg" alt="" />
-                  <img src="/img/cars/Lexus-RX200t-2016/2.jpeg" alt="" />
-                  <img src="/img/cars/Lexus-RX200t-2016/3.jpeg" alt="" />
-                  <img src="/img/cars/Lexus-RX200t-2016/4.jpeg" alt="" />
-                  <img src="/img/cars/Lexus-RX200t-2016/5.jpeg" alt="" />
-                  <img src="/img/cars/Lexus-RX200t-2016/6.jpeg" alt="" />
-                  <img src="/img/cars/Lexus-RX200t-2016/7.jpeg" alt="" />
+                  @foreach($car->images as $image_thumbnail)
+                    <img src="/images/{{ $image_thumbnail->name }}" alt="" />
+                  @endforeach
                 </div>
                 <button class="carousel-button prev-button" id="prevButton">
                   <svg
@@ -61,25 +57,7 @@
               <div class="card car-detailed-description">
                 <h2 class="car-details-title">Detailed Description</h2>
                 <p>
-                  Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                  Mollitia delectus, vitae blanditiis praesentium doloremque
-                  corporis aliquam eligendi dolorum cum ad, laudantium aut
-                  reprehenderit iste, ratione vero amet at dolor. Non. Lorem ipsum
-                  dolor sit amet consectetur adipisicing elit. Fugiat, labore
-                  nesciunt tenetur excepturi corrupti molestiae odio. Asperiores
-                  eligendi repellat aliquam nulla neque delectus in, harum
-                  exercitationem quae facere, illum obcaecati.
-                </p>
-                <p>
-                  Step inside the luxurious cabin, where comfort meets
-                  sophistication. The Silverstream X-200 envelops you in plush
-                  leather seats with ergonomic design, ensuring every journey is a
-                  retreat of indulgence. Equipped with state-of-the-art
-                  infotainment and navigation systems, along with advanced
-                  driver-assist features, this car offers a seamless blend of
-                  convenience and safety. Whether cruising through city streets or
-                  embarking on a cross-country adventure, the Silverstream X-200
-                  promises an exhilarating driving experience like no other.
+                  {{ $car->description }}
                 </p>
               </div>
   
@@ -92,11 +70,11 @@
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
                       fill="currentColor"
-                      style="color: rgb(0, 192, 102)"
+                      style="{{ ($car->carFeature->air_conditioning == 1) ? 'color: rgb(0, 192, 102)' : 'color: red'}}"
                     >
                       <path
                         fill-rule="evenodd"
-                        d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z"
+                        d="{{ ($car->carFeature->air_conditioning == 1) ? 'M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z' : 'M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm3 10.5a.75.75 0 0 0 0-1.5H9a.75.75 0 0 0 0 1.5h6Z'}}"
                         clip-rule="evenodd"
                       />
                     </svg>
@@ -107,13 +85,13 @@
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
                       fill="currentColor"
-                      style="color: rgb(0, 192, 102)"
+                      style="{{ ($car->carFeature->power_windows == 1) ? 'color: rgb(0, 192, 102)' : 'color: red'}}"
                     >
-                      <path
-                        fill-rule="evenodd"
-                        d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z"
-                        clip-rule="evenodd"
-                      />
+                    <path
+                    fill-rule="evenodd"
+                    d="{{ ($car->carFeature->power_windows == 1) ? 'M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z' : 'M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm3 10.5a.75.75 0 0 0 0-1.5H9a.75.75 0 0 0 0 1.5h6Z'}}"
+                    clip-rule="evenodd"
+                  />
                     </svg>
                     Power Windows
                   </li>
@@ -122,13 +100,13 @@
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
                       fill="currentColor"
-                      style="color: rgb(0, 192, 102)"
+                      style="{{ ($car->carFeature->power_door_locks == 1) ? 'color: rgb(0, 192, 102)' : 'color: red'}}"
                     >
-                      <path
-                        fill-rule="evenodd"
-                        d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z"
-                        clip-rule="evenodd"
-                      />
+                    <path
+                    fill-rule="evenodd"
+                    d="{{ ($car->carFeature->power_door_locks == 1) ? 'M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z' : 'M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm3 10.5a.75.75 0 0 0 0-1.5H9a.75.75 0 0 0 0 1.5h6Z'}}"
+                    clip-rule="evenodd"
+                  />
                     </svg>
                     Power Door Locks
                   </li>
@@ -137,13 +115,13 @@
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
                       fill="currentColor"
-                      style="color: rgb(0, 192, 102)"
+                      style="{{ ($car->carFeature->abs == 1) ? 'color: rgb(0, 192, 102)' : 'color: red'}}"
                     >
-                      <path
-                        fill-rule="evenodd"
-                        d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z"
-                        clip-rule="evenodd"
-                      />
+                    <path
+                    fill-rule="evenodd"
+                    d="{{ ($car->carFeature->abs == 1) ? 'M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z' : 'M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm3 10.5a.75.75 0 0 0 0-1.5H9a.75.75 0 0 0 0 1.5h6Z'}}"
+                    clip-rule="evenodd"
+                  />
                     </svg>
                     ABS
                   </li>
@@ -152,13 +130,13 @@
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
                       fill="currentColor"
-                      style="color: red"
+                      style="{{ ($car->carFeature->cruise_control == 1) ? 'color: rgb(0, 192, 102)' : 'color: red'}}"
                     >
-                      <path
-                        fill-rule="evenodd"
-                        d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm3 10.5a.75.75 0 0 0 0-1.5H9a.75.75 0 0 0 0 1.5h6Z"
-                        clip-rule="evenodd"
-                      />
+                    <path
+                    fill-rule="evenodd"
+                    d="{{ ($car->carFeature->cruise_control == 1) ? 'M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z' : 'M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm3 10.5a.75.75 0 0 0 0-1.5H9a.75.75 0 0 0 0 1.5h6Z'}}"
+                    clip-rule="evenodd"
+                  />
                     </svg>
   
                     Cruise Control
@@ -168,13 +146,13 @@
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
                       fill="currentColor"
-                      style="color: red"
+                      style="{{ ($car->carFeature->bluetooth_connectivity == 1) ? 'color: rgb(0, 192, 102)' : 'color: red'}}"
                     >
-                      <path
-                        fill-rule="evenodd"
-                        d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm3 10.5a.75.75 0 0 0 0-1.5H9a.75.75 0 0 0 0 1.5h6Z"
-                        clip-rule="evenodd"
-                      />
+                    <path
+                    fill-rule="evenodd"
+                    d="{{ ($car->carFeature->bluetooth_connectivity == 1) ? 'M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z' : 'M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm3 10.5a.75.75 0 0 0 0-1.5H9a.75.75 0 0 0 0 1.5h6Z'}}"
+                    clip-rule="evenodd"
+                  />
                     </svg>
   
                     Bluetooth Connectivity
@@ -184,13 +162,13 @@
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
                       fill="currentColor"
-                      style="color: red"
+                      style="{{ ($car->carFeature->remote_start == 1) ? 'color: rgb(0, 192, 102)' : 'color: red'}}"
                     >
-                      <path
-                        fill-rule="evenodd"
-                        d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm3 10.5a.75.75 0 0 0 0-1.5H9a.75.75 0 0 0 0 1.5h6Z"
-                        clip-rule="evenodd"
-                      />
+                    <path
+                    fill-rule="evenodd"
+                    d="{{ ($car->carFeature->remote_start == 1) ? 'M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z' : 'M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm3 10.5a.75.75 0 0 0 0-1.5H9a.75.75 0 0 0 0 1.5h6Z'}}"
+                    clip-rule="evenodd"
+                  />
                     </svg>
   
                     Remote Start
@@ -200,13 +178,13 @@
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
                       fill="currentColor"
-                      style="color: rgb(0, 192, 102)"
+                      style="{{ ($car->carFeature->gps_navigation == 1) ? 'color: rgb(0, 192, 102)' : 'color: red'}}"
                     >
-                      <path
-                        fill-rule="evenodd"
-                        d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z"
-                        clip-rule="evenodd"
-                      />
+                    <path
+                    fill-rule="evenodd"
+                    d="{{ ($car->carFeature->gps_navigation == 1) ? 'M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z' : 'M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm3 10.5a.75.75 0 0 0 0-1.5H9a.75.75 0 0 0 0 1.5h6Z'}}"
+                    clip-rule="evenodd"
+                  />
                     </svg>
                     GPS Navigation System
                   </li>
@@ -215,13 +193,13 @@
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
                       fill="currentColor"
-                      style="color: rgb(0, 192, 102)"
+                      style="{{ ($car->carFeature->heated_seats == 1) ? 'color: rgb(0, 192, 102)' : 'color: red'}}"
                     >
-                      <path
-                        fill-rule="evenodd"
-                        d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z"
-                        clip-rule="evenodd"
-                      />
+                    <path
+                    fill-rule="evenodd"
+                    d="{{ ($car->carFeature->heated_seats == 1) ? 'M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z' : 'M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm3 10.5a.75.75 0 0 0 0-1.5H9a.75.75 0 0 0 0 1.5h6Z'}}"
+                    clip-rule="evenodd"
+                  />
                     </svg>
                     Heated Seats
                   </li>
@@ -230,13 +208,13 @@
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
                       fill="currentColor"
-                      style="color: rgb(0, 192, 102)"
+                      style="{{ ($car->carFeature->climate_control == 1) ? 'color: rgb(0, 192, 102)' : 'color: red'}}"
                     >
-                      <path
-                        fill-rule="evenodd"
-                        d="M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z"
-                        clip-rule="evenodd"
-                      />
+                    <path
+                    fill-rule="evenodd"
+                    d="{{ ($car->carFeature->climate_control == 1) ? 'M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z' : 'M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm3 10.5a.75.75 0 0 0 0-1.5H9a.75.75 0 0 0 0 1.5h6Z'}}"
+                    clip-rule="evenodd"
+                  />
                     </svg>
                     Climate Control
                   </li>
@@ -245,13 +223,13 @@
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
                       fill="currentColor"
-                      style="color: red"
+                      style="{{ ($car->carFeature->rear_parking_sensors == 1) ? 'color: rgb(0, 192, 102)' : 'color: red'}}"
                     >
-                      <path
-                        fill-rule="evenodd"
-                        d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm3 10.5a.75.75 0 0 0 0-1.5H9a.75.75 0 0 0 0 1.5h6Z"
-                        clip-rule="evenodd"
-                      />
+                    <path
+                    fill-rule="evenodd"
+                    d="{{ ($car->carFeature->rear_parking_sensors == 1) ? 'M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z' : 'M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm3 10.5a.75.75 0 0 0 0-1.5H9a.75.75 0 0 0 0 1.5h6Z'}}"
+                    clip-rule="evenodd"
+                  />
                     </svg>
   
                     Rear Parking Sensors
@@ -261,13 +239,13 @@
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
                       fill="currentColor"
-                      style="color: red"
+                      style="{{ ($car->carFeature->leather_seats == 1) ? 'color: rgb(0, 192, 102)' : 'color: red'}}"
                     >
-                      <path
-                        fill-rule="evenodd"
-                        d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm3 10.5a.75.75 0 0 0 0-1.5H9a.75.75 0 0 0 0 1.5h6Z"
-                        clip-rule="evenodd"
-                      />
+                    <path
+                    fill-rule="evenodd"
+                    d="{{ ($car->carFeature->leather_seats == 1) ? 'M2.25 12c0-5.385 4.365-9.75 9.75-9.75s9.75 4.365 9.75 9.75-4.365 9.75-9.75 9.75S2.25 17.385 2.25 12Zm13.36-1.814a.75.75 0 1 0-1.22-.872l-3.236 4.53L9.53 12.22a.75.75 0 0 0-1.06 1.06l2.25 2.25a.75.75 0 0 0 1.14-.094l3.75-5.25Z' : 'M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25Zm3 10.5a.75.75 0 0 0 0-1.5H9a.75.75 0 0 0 0 1.5h6Z'}}"
+                    clip-rule="evenodd"
+                  />
                     </svg>
   
                     Leather Seats
@@ -277,7 +255,7 @@
             </div>
             <div class="car-details card">
               <div class="flex items-center justify-between">
-                <p class="car-details-price">$25,000</p>
+                <p class="car-details-price">{{ $car->price }}&euro;</p>
                 <button class="btn-heart">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -301,23 +279,23 @@
                 <tbody>
                   <tr>
                     <th>Maker</th>
-                    <td>Lexus</td>
+                    <td>{{ $car->maker->name }}</td>
                   </tr>
                   <tr>
                     <th>Model</th>
-                    <td>NX200t</td>
+                    <td>{{ $car->model->name }}</td>
                   </tr>
                   <tr>
                     <th>Year</th>
-                    <td>2016</td>
+                    <td>{{ $car->year }}</td>
                   </tr>
                   <tr>
                     <th>Car Type</th>
-                    <td>SUV</td>
+                    <td>{{ $car->carType->name }}</td>
                   </tr>
                   <tr>
                     <th>Fuel Type</th>
-                    <td>Hybrid</td>
+                    <td>{{ $car->fuelType->name }}</td>
                   </tr>
                 </tbody>
               </table>
@@ -330,11 +308,11 @@
                   class="car-details-owner-image"
                 />
                 <div>
-                  <h3 class="car-details-owner">John Smith</h3>
-                  <div class="text-muted">5 cars</div>
+                  <h3 class="car-details-owner">{{ $car->user->name }}</h3>
+                  <div class="text-muted">{{ $user_cars_count }} cars</div>
                 </div>
               </div>
-              <a href="tel:+995557123***" class="car-details-phone">
+              <a href="tel:+{{ $car->phone }}" class="car-details-phone">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -350,8 +328,8 @@
                   />
                 </svg>
   
-                +995557123***
-                <span class="car-details-phone-view">view full number</span>
+                +{{ $car->phone }}
+                {{-- <span class="car-details-phone-view">view full number</span> --}}
               </a>
             </div>
           </div>

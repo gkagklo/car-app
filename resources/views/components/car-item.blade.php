@@ -1,5 +1,5 @@
 <div class="car-item card">
-    <a href="/view.html">
+    <a href="{{ route('car.show', $car->id )}}">
       <img
         src="/images/{{ $car->primaryImage->name }}"
         alt=""

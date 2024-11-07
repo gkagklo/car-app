@@ -99,9 +99,10 @@ class CarController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Car $car)
     {
-        return view('car.show');
+        $user_cars_count = Car::where("user_id", $car->user_id)->count();
+        return view('car.show', compact('car', 'user_cars_count'));
     }
 
     /**
@@ -190,18 +191,18 @@ class CarController extends Controller
         return response()->json($data);
     }
 
-    public function editCarImages($id)
+    public function editCarImages(Car $car)
     {
-        $car_info = Car::find($id);
-        // dd($car_info->year);
-        $car_images = CarImages::where("car_id", $id)->orderBy("position")->get();
-        return view('car.car_images', compact('car_images','car_info'));
+        Gate::authorize('update', $car);
+        $car_images = CarImages::where("car_id", $car->id)->orderBy("position")->get();
+        return view('car.car_images', compact('car_images','car'));
     }
     
-    public function updateCarImages(Request $request, $id)
+    public function updateCarImages(Request $request, Car $car)
     {
+        Gate::authorize('update', $car);
         $index = 0;
-        $car_images = CarImages::where("car_id", $id)->orderBy("position")->get();
+        $car_images = CarImages::where("car_id", $car->id)->orderBy("position")->get();
         foreach($car_images as $car_image){
             $car_image->update([
                 'position' => $request->positions[$index]
@@ -224,9 +225,9 @@ class CarController extends Controller
         return redirect()->back();
     }
 
-    public function carImageCreate(Request $request, $id)
+    public function carImageCreate(Request $request, Car $car)
     {
-        $car = Car::find($id);
+        Gate::authorize('create', $car);
         $latestPosition = $car->latestImage->position;
         
         // Validate incoming request data
@@ -248,7 +249,7 @@ class CarController extends Controller
             $image->move(public_path('images'), $imageName);
   
             // Add image information to the array
-            $images[] = ['name' => $imageName, 'car_id' => $id, 'position' => $latestPosition];
+            $images[] = ['name' => $imageName, 'car_id' => $car->id, 'position' => $latestPosition];
         }
   
         // Store images in the database using create method

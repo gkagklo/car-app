@@ -9,7 +9,7 @@ class HomeController extends Controller
 {
     public function index()
     {
-        $cars = Car::where("published", 1)->orderBy("created_at")->get();
+        $cars = Car::where("published", 1)->orderBy("created_at", "desc")->get();
         return view('home.index', compact('cars'));
     }
 }
