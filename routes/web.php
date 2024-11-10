@@ -11,7 +11,7 @@ Route::get('/', [HomeController::class,'index'])->name('home');
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::resource('car', CarController::class)->only('show');
+Route::resource('car', CarController::class)->only('show', 'create');
 
 Route::get('/car/search', [CarController::class,'search'])->name('search');
 
@@ -25,6 +25,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/car/{car}/edit/car_images', [CarController::class,'editCarImages'])->name('car_images');
     Route::put('/car/{car}/edit/car_images/update', [CarController::class, 'updateCarImages'])->name('updateCarImages');
     Route::post('/car/{car}/create/car_images', [CarController::class,'carImageCreate'])->name('carImageCreate');
+    Route::get('/favourite_cars', [CarController::class,'favourite_cars'])->name('favourite_cars');
+    Route::delete('/favourite_cars/{car}/delete', [CarController::class, 'deleteFavouriteCar'])->name('deleteFavouriteCar');
+    Route::post('/favourite_cars/{car}/create', [CarController::class, 'createFavouriteCar'])->name('createFavouriteCar');
 });
 
 require __DIR__.'/auth.php';

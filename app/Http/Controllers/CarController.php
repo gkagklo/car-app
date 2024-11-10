@@ -9,6 +9,7 @@ use App\Models\CarFeatures;
 use App\Models\CarImages;
 use App\Models\CarType;
 use App\Models\City;
+use App\Models\FavouriteCars;
 use App\Models\FuelType;
 use App\Models\Maker;
 use App\Models\Model;
@@ -257,6 +258,28 @@ class CarController extends Controller
             CarImages::create($imageData);
         }
 
+        return redirect()->back();
+    }
+
+    public function favourite_cars()
+    {
+        $user_id = auth()->user()->id;
+        $favourite_cars = FavouriteCars::where("user_id", $user_id)->with('car')->get();
+        return view('car.favourite_cars', compact('favourite_cars'));
+    }
+
+    public function deleteFavouriteCar(Car $car)
+    {
+        FavouriteCars::where("car_id", $car->id)->delete();
+        return redirect()->back();
+    }
+
+    public function createFavouriteCar(Car $car)
+    {
+        FavouriteCars::create([
+            'car_id' => $car->id,
+            'user_id' => auth()->user()->id
+        ]);
         return redirect()->back();
     }
 

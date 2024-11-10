@@ -80,4 +80,9 @@ class Car extends EloquentModel
         return $this->belongsTo(User::class);
     }
 
+    public function favourite_cars()
+    {
+        return $this->hasMany(FavouriteCars::class);
+    }
+
 }
