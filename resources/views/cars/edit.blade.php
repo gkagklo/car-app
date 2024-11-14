@@ -3,7 +3,7 @@
         <div class="container-small">
           <h1 class="car-details-page-title">Edit Car: {{ $car->maker->name }} {{ $car->model->name }} - {{ $car->year }}</h1>
           <form
-            action="{{ route('car.update', $car->id) }}"
+            action="{{ route('cars.update', $car->id) }}"
             method="POST"
             
             class="card add-new-car-form"

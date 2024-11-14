@@ -7,7 +7,7 @@
             <div class="car-items-listing">
             @foreach($favourite_cars as $favourite_car)
               <div class="car-item card">
-                <a href="{{ route('car.show', $favourite_car->car->id )}}">
+                <a href="{{ route('cars.show', $favourite_car->car->id )}}">
                   <img
                     src="/images/{{ $favourite_car->car->primaryImage->name }}"
                     alt=""

@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
   <head>
+    
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -21,13 +22,7 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
-    <!-- <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css"
-      rel="stylesheet"
-    /> -->
-
     <link rel="stylesheet" href="/css/app.css" />
-    <!-- <link rel="stylesheet" href="css/output.css" /> -->
   </head>
   <body @if($bodyClass)class="{{ $bodyClass }}"@endif>
 

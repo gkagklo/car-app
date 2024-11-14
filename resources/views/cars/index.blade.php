@@ -29,11 +29,11 @@
                         <td>{{ $my_car->created_at }}</td>
                         <td>@if($my_car->published == 0) No @else Yes @endif</td>
                         <td class="">
-                          <form action="{{ route('car.destroy',$my_car->id) }}" method="POST" onsubmit="return confirm('Are you sure?');">
+                          <form action="{{ route('cars.destroy',$my_car->id) }}" method="POST" onsubmit="return confirm('Are you sure?');">
                             @csrf
                             @method('DELETE')
                           <a
-                            href="{{ route("car.edit", $my_car->id)}}"
+                            href="{{ route("cars.edit", $my_car->id)}}"
                             class="btn btn-edit inline-flex items-center"
                           >
                             <svg

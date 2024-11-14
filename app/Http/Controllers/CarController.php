@@ -28,7 +28,7 @@ class CarController extends Controller
     {
         $user_id = auth()->user()->id;
         $my_cars = Car::where("user_id", $user_id)->orderBy("created_at", "desc")->get();
-        return view('car.index', compact('my_cars'));
+        return view('cars.index', compact('my_cars'));
     }
 
     /**
@@ -41,7 +41,7 @@ class CarController extends Controller
         $fuel_types = FuelType::all();
         $states = State::all();
 
-        return view('car.create', compact('makers', 'car_types', 'fuel_types', 'states'));
+        return view('cars.create', compact('makers', 'car_types', 'fuel_types', 'states'));
     }
 
     /**
@@ -94,7 +94,7 @@ class CarController extends Controller
             CarImages::create($imageData);
         }
            
-        return redirect()->back();
+        return redirect()->route('cars.index')->with('success','Car created successfully');
     }
 
     /**
@@ -103,7 +103,7 @@ class CarController extends Controller
     public function show(Car $car)
     {
         $user_cars_count = Car::where("user_id", $car->user_id)->count();
-        return view('car.show', compact('car', 'user_cars_count'));
+        return view('cars.show', compact('car', 'user_cars_count'));
     }
 
     /**
@@ -120,7 +120,7 @@ class CarController extends Controller
         $cities = City::where("state_id", $car->state_id)->get();
         $car_images = CarImages::where("car_id", $car->id)->get();
         $car = Car::find($car->id);
-        return view('car.edit', compact('car', 'car_types', 'makers', 'models', 'fuel_types','states', 'cities', 'car_images'));
+        return view('cars.edit', compact('car', 'car_types', 'makers', 'models', 'fuel_types','states', 'cities', 'car_images'));
     }
 
     /**
@@ -144,7 +144,7 @@ class CarController extends Controller
             'rear_parking_sensors'=> $request->rear_parking_sensors ?? 0,
             'leather_seats'=> $request->leather_seats ?? 0,
         ]);
-        return redirect()->back();
+        return redirect()->route('cars.index')->with('success','Car updated successfully');
     }
 
     public function destroy(Car $car)
@@ -159,11 +159,12 @@ class CarController extends Controller
         $car->images()->delete();
         $car->carFeature()->delete();
         $car->delete();
+        return redirect()->route('cars.index')->with('error','Car deleted successfully');
     }
 
     public function search()
     {
-        return view('car.search');
+        return view('cars.search');
     }
 
     /**
@@ -196,7 +197,7 @@ class CarController extends Controller
     {
         Gate::authorize('update', $car);
         $car_images = CarImages::where("car_id", $car->id)->orderBy("position")->get();
-        return view('car.car_images', compact('car_images','car'));
+        return view('cars.car_images', compact('car_images','car'));
     }
     
     public function updateCarImages(Request $request, Car $car)
@@ -265,11 +266,12 @@ class CarController extends Controller
     {
         $user_id = auth()->user()->id;
         $favourite_cars = FavouriteCars::where("user_id", $user_id)->with('car')->get();
-        return view('car.favourite_cars', compact('favourite_cars'));
+        return view('cars.favourite_cars', compact('favourite_cars'));
     }
 
     public function deleteFavouriteCar(Car $car)
     {
+        Gate::authorize('delete', $car);
         FavouriteCars::where("car_id", $car->id)->delete();
         return redirect()->back();
     }

@@ -37,6 +37,13 @@
           </div>
           <h1 class="auth-page-title">Request Password Reset</h1>
 
+          <!-- Session Status -->
+          @if(session('status'))
+          <div class="container my-large">
+            <div class="success-message"> {{ session('status') }}</div>
+          </div>
+          @endif
+
           <form action="{{ route('password.email') }}" method="post">
             @csrf
             <div class="form-group">

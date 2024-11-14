@@ -55,7 +55,7 @@
 <x-base-layout title="SignUp" bodyClass="page-signup">
 
 <main>
-    <div class="container-small">
+    <div class="container-small page-login">
       <div class="flex" style="gap: 5rem">
         <div class="auth-page-form">
           <div class="text-center">
@@ -67,39 +67,39 @@
 
           <form action="{{ route('register')}}" method="post">
             @csrf
-            <div class="form-group">
+            <div class="form-group @error('email') has-error @enderror">
               <input type="email" name="email" placeholder="Your Email" />
               @error('email')
-                <span class="text-error">{{ $message }}</span>
+                <p class="error-message">{{ $message }}</p>
               @enderror
             </div>
-            <div class="form-group">
+            <div class="form-group @error('password') has-error @enderror">
               <input type="password" name="password" placeholder="Your Password" />
               @error('password')
-                <span class="text-error">{{ $message }}</span>
+                <p class="error-message">{{ $message }}</p>
               @enderror
             </div>
-            <div class="form-group">
+            <div class="form-group @error('password_confirmation') has-error @enderror">
               <input type="password" name="password_confirmation" placeholder="Repeat Password" />
               @error('password_confirmation')
-                <span class="text-error">{{ $message }}</span>
+                <p class="error-message">{{ $message }}</p>
               @enderror
             </div>
             <hr />
-            <div class="form-group">
+            <div class="form-group @error('name') has-error @enderror">
                 <input type="text" name="name" placeholder="Name" />
                 @error('name')
-                <span class="text-error">{{ $message }}</span>
+                  <p class="error-message">{{ $message }}</p>
               @enderror
               </div>
-            <div class="form-group">
+            <div class="form-group @error('phone') has-error @enderror">
               <input type="text" name="phone" placeholder="Phone" />
               @error('phone')
-                <span class="text-error">{{ $message }}</span>
+                <p class="error-message">{{ $message }}</p>
               @enderror
             </div>
             <button type="submit" class="btn btn-primary btn-login w-full">Register</button>
-
+            
             <div class="grid grid-cols-2 gap-1 social-auth-buttons">
               <x-google-button/>
               <x-fb-button/>             

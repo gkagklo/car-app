@@ -3,7 +3,7 @@
     <div class="container-small">
       <h1 class="car-details-page-title">Add New Car</h1>
       <form
-        action="{{ route('car.store') }}"
+        action="{{ route('cars.store') }}"
         method="POST"
         enctype="multipart/form-data"
         class="card add-new-car-form"

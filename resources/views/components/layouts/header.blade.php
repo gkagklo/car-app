@@ -21,7 +21,7 @@
       </button>
       <div class="navbar-auth">
         @auth
-        <a href="{{ route('car.create') }}" class="btn btn-add-new-car">
+        <a href="{{ route('cars.create') }}" class="btn btn-add-new-car">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
@@ -60,7 +60,10 @@
           </a>
           <ul class="submenu">
             <li>
-              <a href="{{ route('car.index') }}">My Cars</a>
+              <a href="{{ route('profile.edit') }}">Profile</a>
+            </li>
+            <li>
+              <a href="{{ route('cars.index') }}">My Cars</a>
             </li>
             <li>
               <a href="{{ route('favourite_cars') }}">My Favourite Cars</a>

@@ -50,7 +50,7 @@
 
 <main>
 
-    <div class="container-small">
+    <div class="container-small page-login">
       <div class="flex" style="gap: 5rem">
         <div class="auth-page-form">
           <div class="text-center">
@@ -62,16 +62,16 @@
 
           <form action="{{ route('login') }}" method="post">
             @csrf
-            <div class="form-group">
+            <div class="form-group @error('email') has-error @enderror">
               <input type="email" name="email" placeholder="Your Email" />
               @error('email')
-                <span class="text-error">{{ $message }}</span>
+                <p class="error-message">{{ $message }}</p>
               @enderror
             </div>
-            <div class="form-group">
+            <div class="form-group @error('password') has-error @enderror">
               <input type="password" name="password" placeholder="Your Password" />
               @error('password')
-                <span class="text-error">{{ $message }}</span>
+              <p class="error-message">{{ $message }}</p>
               @enderror
             </div>
             <div class="text-right mb-medium">
