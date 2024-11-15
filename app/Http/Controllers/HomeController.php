@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\FavouriteCars;
+use App\Models\Maker;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use App\Models\Car;

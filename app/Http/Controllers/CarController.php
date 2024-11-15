@@ -37,11 +37,13 @@ class CarController extends Controller
     public function create()
     {
         $makers = Maker::all();
+        $models = Model::all();
         $car_types = CarType::all();
         $fuel_types = FuelType::all();
         $states = State::all();
+        $cities = City::all();
 
-        return view('cars.create', compact('makers', 'car_types', 'fuel_types', 'states'));
+        return view('cars.create', compact('makers', 'models', 'car_types', 'fuel_types', 'states', 'cities'));
     }
 
     /**
@@ -113,11 +115,11 @@ class CarController extends Controller
     {
         Gate::authorize('update', $car);
         $makers = Maker::all();
-        $models = Model::where("maker_id", $car->maker_id)->get();
+        $models = Model::all();
         $car_types = CarType::all();
         $fuel_types = FuelType::all();
         $states = State::all();
-        $cities = City::where("state_id", $car->state_id)->get();
+        $cities = City::all();
         $car_images = CarImages::where("car_id", $car->id)->get();
         $car = Car::find($car->id);
         return view('cars.edit', compact('car', 'car_types', 'makers', 'models', 'fuel_types','states', 'cities', 'car_images'));
@@ -162,35 +164,55 @@ class CarController extends Controller
         return redirect()->route('cars.index')->with('error','Car deleted successfully');
     }
 
-    public function search()
+    public function search(Request $request)
     {
-        return view('cars.search');
-    }
-
-    /**
-     * Write code on Method
-     *
-     * @return response()
-     */
-    public function fetchModel(Request $request): JsonResponse
-    {
-        $data['models'] = Model::where("maker_id", $request->maker_id)
-                                ->get(["name", "id"]);
-  
-        return response()->json($data);
-    }
-
-    /**
-     * Write code on Method
-     *
-     * @return response()
-     */
-    public function fetchCity(Request $request): JsonResponse
-    {
-        $data['cities'] = City::where("state_id", $request->state_id)
-                                ->get(["name", "id"]);
-  
-        return response()->json($data);
+        $maker_id = $request->maker_id;
+        $model_id = $request->model_id;
+        $state_id = $request->state_id;
+        $city_id = $request->city_id;
+        $car_type_id = $request->car_type_id;
+        $year_from = $request->year_from;
+        $year_to = $request->year_to;
+        $price_from = $request->price_from;
+        $price_to = $request->price_to;
+        $fuel_type_id = $request->fuel_type_id;
+        $makers = Maker::all();
+        $models = Model::all();
+        $carTypes = CarType::all();
+        $states = State::all();
+        $cities = City::all();
+        $fuelTypes = FuelType::all();
+        $cars = Car::where([
+            ['maker_id', '=', $maker_id],
+            ['model_id', '=', $model_id],
+            ['state_id', '=', $state_id],
+            ['city_id', '=', $city_id],
+            ['car_type_id', '=', $car_type_id],
+            ['year', '>=', $year_from],
+            ['year', '<=', $year_to],
+            ['price', '>=', $price_from],
+            ['price', '<=', $price_to], 
+            ['fuel_type_id', '=', $fuel_type_id],
+        ])->orderBy('created_at')->get();
+        return view('cars.search', compact(
+        'maker_id',
+        'model_id',
+        'state_id',
+        'city_id',
+        'car_type_id',
+        'year_from',
+        'year_to',
+        'price_from',
+        'price_to',
+        'fuel_type_id',
+        'makers',
+        'models',
+        'carTypes',
+        'states',
+        'cities',
+        'fuelTypes',
+        'cars'
+    ));
     }
 
     public function editCarImages(Car $car)
@@ -224,7 +246,7 @@ class CarController extends Controller
             }
         }
 
-        return redirect()->back();
+        return redirect()->back()->with('success','Car images updated successfully');
     }
 
     public function carImageCreate(Request $request, Car $car)
@@ -259,7 +281,7 @@ class CarController extends Controller
             CarImages::create($imageData);
         }
 
-        return redirect()->back();
+        return redirect()->back()->with('success','Car images added successfully');
     }
 
     public function favourite_cars()
@@ -271,7 +293,6 @@ class CarController extends Controller
 
     public function deleteFavouriteCar(Car $car)
     {
-        Gate::authorize('delete', $car);
         FavouriteCars::where("car_id", $car->id)->delete();
         return redirect()->back();
     }

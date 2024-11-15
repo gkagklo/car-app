@@ -91,7 +91,7 @@
 
   <main>
 
-      <x-search-form/>
+      <x-search-form />
 
       <!-- New Cars -->
       <section>

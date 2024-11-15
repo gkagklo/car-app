@@ -16,12 +16,12 @@
               <div class="col">
                 <div class="form-group @error('maker_id') has-error @enderror">
                   <label>Maker</label>
-                  <select name="maker_id" id="maker-dropdown">
+                  <select id="makerSelect" name="maker_id">
                     <option value="">Maker</option>
                     @foreach($makers as $maker)
                       <option value="{{ $maker->id }}">{{ $maker->name }}</option>
-                    @endforeach                    
-                  </select>                 
+                    @endforeach
+                  </select>
                   @error('maker_id')
                     <p class="error-message">{{ $message }}</p>
                   @enderror  
@@ -30,8 +30,13 @@
               <div class="col">
                 <div class="form-group @error('model_id') has-error @enderror">
                   <label>Model</label>
-                  <select name="model_id" id="model-dropdown">
-                    <option value="">Model</option>
+                  <select id="modelSelect" name="model_id">
+                    <option value="" style="display: block">Model</option>
+                    @foreach($models as $model)
+                      <option value="{{ $model->id }}" data-parent="{{ $model->maker_id }}" style="display: none">
+                        {{ $model->name }}
+                      </option>
+                    @endforeach
                   </select>
                   @error('model_id')
                     <p class="error-message">{{ $message }}</p>
@@ -150,7 +155,7 @@
               <div class="col">
                 <div class="form-group @error('state_id') has-error @enderror">
                   <label>State/Region</label>
-                  <select name="state_id" id="state-dropdown">
+                  <select name="state_id" id="stateSelect">
                     <option value="">State/Region</option>
                     @foreach($states as $state)
                       <option value="{{ $state->id }}">{{ $state->name }}</option>
@@ -164,8 +169,13 @@
               <div class="col">
                 <div class="form-group @error('city_id') has-error @enderror">
                   <label>City</label>
-                  <select name="city_id" id="city-dropdown">
-                    <option value="">City</option>
+                  <select id="citySelect" name="city_id">
+                    <option value="" style="display: block">City</option>
+                    @foreach($cities as $city)
+                      <option value="{{ $city->id }}" data-parent="{{ $city->state_id }}" style="display: none">
+                        {{ $city->name }}
+                      </option>
+                    @endforeach
                   </select>
                   @error('city_id')
                     <p class="error-message">{{ $message }}</p>
@@ -324,61 +334,4 @@
 
 </x-app-layout>
 
-<script type="text/javascript">
-  $(document).ready(function () {
-
-      /*------------------------------------------
-      --------------------------------------------
-      Maker Dropdown Change Event
-      --------------------------------------------
-      --------------------------------------------*/
-      $('#maker-dropdown').on('change', function () {
-          var idMaker = this.value;
-          $("#model-dropdown").html('');
-          $.ajax({
-              url: "{{url('api/fetch-models')}}",
-              type: "POST",
-              data: {
-                  maker_id: idMaker,
-                  _token: '{{csrf_token()}}'
-              },
-              dataType: 'json',
-              success: function (result) {
-                  $('#model-dropdown').html('<option value="">Model</option>');
-                  $.each(result.models, function (key, value) {
-                      $("#model-dropdown").append('<option value="' + value
-                          .id + '">' + value.name + '</option>');
-                  });
-              }
-          });
-      });
-
-        /*------------------------------------------
-      --------------------------------------------
-      State Dropdown Change Event
-      --------------------------------------------
-      --------------------------------------------*/
-      $('#state-dropdown').on('change', function () {
-          var idState = this.value;
-          $("#city-dropdown").html('');
-          $.ajax({
-              url: "{{url('api/fetch-cities')}}",
-              type: "POST",
-              data: {
-                  state_id: idState,
-                  _token: '{{csrf_token()}}'
-              },
-              dataType: 'json',
-              success: function (result) {
-                  $('#city-dropdown').html('<option value="">City</option>');
-                  $.each(result.cities, function (key, value) {
-                      $("#city-dropdown").append('<option value="' + value
-                          .id + '">' + value.name + '</option>');
-                  });
-              }
-          });
-      });
-
-  });
-</script>
 
