@@ -27,7 +27,7 @@ class CarController extends Controller
     public function index()
     {
         $user_id = auth()->user()->id;
-        $my_cars = Car::where("user_id", $user_id)->orderBy("created_at", "desc")->get();
+        $my_cars = Car::where("user_id", $user_id)->orderBy("created_at", "desc")->paginate(10);
         return view('cars.index', compact('my_cars'));
     }
 
@@ -176,24 +176,45 @@ class CarController extends Controller
         $price_from = $request->price_from;
         $price_to = $request->price_to;
         $fuel_type_id = $request->fuel_type_id;
+
         $makers = Maker::all();
         $models = Model::all();
         $carTypes = CarType::all();
         $states = State::all();
         $cities = City::all();
         $fuelTypes = FuelType::all();
-        $cars = Car::where([
-            ['maker_id', '=', $maker_id],
-            ['model_id', '=', $model_id],
-            ['state_id', '=', $state_id],
-            ['city_id', '=', $city_id],
-            ['car_type_id', '=', $car_type_id],
-            ['year', '>=', $year_from],
-            ['year', '<=', $year_to],
-            ['price', '>=', $price_from],
-            ['price', '<=', $price_to], 
-            ['fuel_type_id', '=', $fuel_type_id],
-        ])->orderBy('created_at')->get();
+
+        $cars = Car::when($maker_id, function ($q) use ($maker_id) {
+            return $q->where('maker_id', $maker_id);
+        })
+        ->when($model_id, function ($q) use ($model_id) {
+            return $q->where('model_id', $model_id);
+        })
+        ->when($state_id, function ($q) use ($state_id) {
+            return $q->where('state_id', $state_id);
+        })
+        ->when($city_id, function ($q) use ($city_id) {
+            return $q->where('city_id', $city_id);
+        })
+        ->when($car_type_id, function ($q) use ($car_type_id) {
+            return $q->where('car_type_id', $car_type_id);
+        })
+        ->when($year_from, function ($q) use ($year_from) {
+            return $q->where('year', '>=', $year_from);
+        })
+        ->when($year_to, function ($q) use ($year_to) {
+            return $q->where('year', '<=', $year_to);
+        })
+        ->when($price_from, function ($q) use ($price_from) {
+            return $q->where('price', '>=', $price_from);
+        })
+        ->when($price_to, function ($q) use ($price_to) {
+            return $q->where('price', '<=', $price_to);
+        })
+        ->when($fuel_type_id, function ($q) use ($fuel_type_id) {
+            return $q->where('fuel_type_id', $fuel_type_id);
+        })
+        ->orderBy('created_at')->paginate(15)->withQueryString();
         return view('cars.search', compact(
         'maker_id',
         'model_id',

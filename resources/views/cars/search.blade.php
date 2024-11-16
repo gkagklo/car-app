@@ -25,7 +25,7 @@
         <div class="search-car-results-wrapper">
           <div class="search-cars-sidebar">
             <div class="card card-found-cars">
-              <p class="m-0">Found <strong>{{ $cars->count() }}</strong> cars</p>
+              <p class="m-0">Found <strong>{{ $cars->total() }}</strong> cars</p>
 
               <button class="close-filters-button">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style="width: 24px">
@@ -38,11 +38,12 @@
 
             <!-- Find a car form -->
             <section class="find-a-car">
-              <form action="/s.html" method="GET" class="find-a-car-form card flex p-medium">
+              <form action="{{ route('search') }}" method="GET" class="find-a-car-form card flex p-medium">
                 <div class="find-a-car-inputs">
                   <div class="form-group">
                     <label class="mb-medium">Maker</label>
                     <select id="makerSelect" name="maker_id">
+                      <option value="">Maker</option>
                       @foreach($makers as $maker)
                         <option value="{{ $maker->id }}" @if($maker->id == $maker_id) selected @endif>{{ $maker->name }}</option>
                       @endforeach
@@ -51,6 +52,7 @@
                   <div class="form-group">
                     <label class="mb-medium">Model</label>
                     <select id="modelSelect" name="model_id">
+                      <option value="" style="display: block">Model</option>
                       @foreach($models as $model)
                         <option value="{{ $model->id }}" data-parent="{{ $model->maker_id }}" style="display: none" @if($model->id == $model_id) selected @endif>
                           {{ $model->name }}
@@ -61,6 +63,7 @@
                   <div class="form-group">
                     <label class="mb-medium">Type</label>
                     <select name="car_type_id">
+                      <option value="">Type</option>
                       @foreach($carTypes as $carType)
                         <option value="{{ $carType->id }}" @if($carType->id == $car_type_id) selected @endif>{{ $carType->name }}</option>
                       @endforeach
@@ -105,6 +108,7 @@
                   <div class="form-group">
                     <label class="mb-medium">State</label>
                     <select id="stateSelect" name="state_id">
+                      <option value="">State</option>
                       @foreach($states as $state)
                         <option value="{{ $state->id }}" @if($state->id == $state_id) selected @endif >{{ $state->name }}</option>
                       @endforeach
@@ -113,6 +117,7 @@
                   <div class="form-group">
                     <label class="mb-medium">City</label>
                     <select id="citySelect" name="city_id">
+                      <option value="">City</option>
                       @foreach($cities as $city)
                         <option value="{{ $city->id }}" data-parent="{{ $city->state_id }}" style="display: none" @if($city->id == $city_id) selected @endif>
                           {{ $city->name }}
@@ -123,6 +128,7 @@
                   <div class="form-group">
                     <label class="mb-medium">Fuel Type</label>
                     <select name="fuel_type_id">
+                      <option value="">Fuel Type</option>
                       @foreach($fuelTypes as $fuelType)
                         <option value="{{ $fuelType->id }}" @if($fuelType->id == $fuel_type_id) selected @endif>{{ $fuelType->name }}</option>
                       @endforeach
@@ -209,39 +215,7 @@
               </div>
             @endforeach
             </div>
-            <nav class="pagination my-large">
-              <a href="#" class="pagination-item">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                  stroke="currentColor" style="width: 18px">
-                  <path stroke-linecap="round" stroke-linejoin="round"
-                    d="m18.75 4.5-7.5 7.5 7.5 7.5m-6-15L5.25 12l7.5 7.5" />
-                </svg>
-              </a>
-              <a href="#" class="pagination-item">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                  stroke="currentColor" style="width: 18px">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
-                </svg>
-              </a>
-
-              <a href="#" class="pagination-item"> 1 </a>
-              <a href="#" class="pagination-item"> 2 </a>
-              <span class="pagination-item active"> 3 </span>
-              <a href="#" class="pagination-item"> 4 </a>
-              <a href="#" class="pagination-item">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                  stroke="currentColor" style="width: 18px">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-                </svg>
-              </a>
-              <a href="#" class="pagination-item">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                  stroke="currentColor" style="width: 18px">
-                  <path stroke-linecap="round" stroke-linejoin="round"
-                    d="m5.25 4.5 7.5 7.5-7.5 7.5m6-15 7.5 7.5-7.5 7.5" />
-                </svg>
-              </a>
-            </nav>
+            {{ $cars->links('vendor.pagination.custom') }}
           </div>
         </div>
       </div>
