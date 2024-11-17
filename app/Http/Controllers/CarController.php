@@ -252,7 +252,7 @@ class CarController extends Controller
         })
         ->where('published', 1)
         ->orderBy($sort, $order)
-        ->paginate(1)->withQueryString();
+        ->paginate(15)->withQueryString();
 
         return view('cars.search', compact(
         'maker_id',
