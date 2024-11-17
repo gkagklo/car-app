@@ -20,6 +20,12 @@
             <option value="">Order By</option>
             <option value="price">Price Asc</option>
             <option value="-price">Price Desc</option>
+            <option value="year">Year Asc</option>
+            <option value="-year">Year Desc</option>
+            <option value="mileage">Mileage Asc</option>
+            <option value="-mileage">Mileage Desc</option>
+            <option value="created_at">Newest at the top</option>
+            <option value="-created_at">Oldest at the top</option>
           </select>
         </div>
         <div class="search-car-results-wrapper">
@@ -83,28 +89,28 @@
                       <input type="number" placeholder="Price To" name="price_to" value="{{ $price_to }}" />
                     </div>
                   </div>
-                  {{-- <div class="form-group">
+                  <div class="form-group">
                     <label class="mb-medium">Mileage</label>
                     <div class="flex gap-1">
                       <select name="mileage">
                         <option value="">Any Mileage</option>
-                        <option value="10000">10,000 or less</option>
-                        <option value="20000">20,000 or less</option>
-                        <option value="30000">30,000 or less</option>
-                        <option value="40000">40,000 or less</option>
-                        <option value="50000">50,000 or less</option>
-                        <option value="60000">60,000 or less</option>
-                        <option value="70000">70,000 or less</option>
-                        <option value="80000">80,000 or less</option>
-                        <option value="90000">90,000 or less</option>
-                        <option value="100000">100,000 or less</option>
-                        <option value="150000">150,000 or less</option>
-                        <option value="200000">200,000 or less</option>
-                        <option value="250000">250,000 or less</option>
-                        <option value="300000">300,000 or less</option>
+                        <option value="10000" @if($mileage == 10000) selected @endif>10,000 or less</option>
+                        <option value="20000" @if($mileage == 20000) selected @endif>20,000 or less</option>
+                        <option value="30000" @if($mileage == 30000) selected @endif>30,000 or less</option>
+                        <option value="40000" @if($mileage == 40000) selected @endif>40,000 or less</option>
+                        <option value="50000" @if($mileage == 50000) selected @endif>50,000 or less</option>
+                        <option value="60000" @if($mileage == 60000) selected @endif>60,000 or less</option>
+                        <option value="70000" @if($mileage == 70000) selected @endif>70,000 or less</option>
+                        <option value="80000" @if($mileage == 80000) selected @endif>80,000 or less</option>
+                        <option value="90000" @if($mileage == 90000) selected @endif>90,000 or less</option>
+                        <option value="100000" @if($mileage == 100000) selected @endif>100,000 or less</option>
+                        <option value="150000" @if($mileage == 150000) selected @endif>150,000 or less</option>
+                        <option value="200000" @if($mileage == 200000) selected @endif>200,000 or less</option>
+                        <option value="250000" @if($mileage == 250000) selected @endif>250,000 or less</option>
+                        <option value="300000" @if($mileage == 300000) selected @endif>300,000 or less</option>
                       </select>
                     </div>
-                  </div> --}}
+                  </div>
                   <div class="form-group">
                     <label class="mb-medium">State</label>
                     <select id="stateSelect" name="state_id">

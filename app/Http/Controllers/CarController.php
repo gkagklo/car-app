@@ -166,6 +166,7 @@ class CarController extends Controller
 
     public function search(Request $request)
     {
+        
         $maker_id = $request->maker_id;
         $model_id = $request->model_id;
         $state_id = $request->state_id;
@@ -176,6 +177,38 @@ class CarController extends Controller
         $price_from = $request->price_from;
         $price_to = $request->price_to;
         $fuel_type_id = $request->fuel_type_id;
+        $mileage = $request->mileage;
+ 
+        $sort = 'created_at';
+        $order = 'desc';
+        if($request->sort != null && $request->sort == 'price'){
+            $sort = 'price';
+            $order = 'asc';
+        }elseif( $request->sort != null && $request->sort == '-price'){
+            $sort = 'price';
+            $order = 'desc';
+        }
+        if($request->sort != null && $request->sort == 'year'){
+            $sort = 'year';
+            $order = 'asc';
+        }elseif( $request->sort != null && $request->sort == '-year'){
+            $sort = 'year';
+            $order = 'desc';
+        }
+        if($request->sort != null && $request->sort == 'mileage'){
+            $sort = 'mileage';
+            $order = 'asc';
+        }elseif( $request->sort != null && $request->sort == '-mileage'){
+            $sort = 'mileage';
+            $order = 'desc';
+        }
+        if($request->sort != null && $request->sort == 'created_at'){
+            $sort = 'created_at';
+            $order = 'asc';
+        }elseif( $request->sort != null && $request->sort == '-created_at'){
+            $sort = 'mileage';
+            $order = 'desc';
+        }
 
         $makers = Maker::all();
         $models = Model::all();
@@ -214,7 +247,13 @@ class CarController extends Controller
         ->when($fuel_type_id, function ($q) use ($fuel_type_id) {
             return $q->where('fuel_type_id', $fuel_type_id);
         })
-        ->orderBy('created_at')->paginate(15)->withQueryString();
+        ->when($mileage, function ($q) use ($mileage) {
+            return $q->where('mileage', '<=', $mileage);
+        })
+        ->where('published', 1)
+        ->orderBy($sort, $order)
+        ->paginate(1)->withQueryString();
+
         return view('cars.search', compact(
         'maker_id',
         'model_id',
@@ -226,6 +265,7 @@ class CarController extends Controller
         'price_from',
         'price_to',
         'fuel_type_id',
+        'mileage',
         'makers',
         'models',
         'carTypes',
