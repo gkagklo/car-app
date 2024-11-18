@@ -348,7 +348,7 @@ class CarController extends Controller
     public function favourite_cars()
     {
         $user_id = auth()->user()->id;
-        $favourite_cars = FavouriteCars::where("user_id", $user_id)->with('car')->get();
+        $favourite_cars = FavouriteCars::where("user_id", $user_id)->with('car')->paginate(15);
         return view('cars.favourite_cars', compact('favourite_cars'));
     }
 

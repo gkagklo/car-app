@@ -18,12 +18,12 @@ Route::resource('cars', CarController::class)->only('show', 'create');
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('cars', CarController::class)->except('show');
     Route::get('/cars/{car}/edit/car_images', [CarController::class,'editCarImages'])->name('car_images');
     Route::put('/cars/{car}/edit/car_images/update', [CarController::class, 'updateCarImages'])->name('updateCarImages');
     Route::post('/cars/{car}/create/car_images', [CarController::class,'carImageCreate'])->name('carImageCreate');
-    Route::get('/favourite_cars', [CarController::class,'favourite_cars'])->name('favourite_cars');
+    Route::get('/favourite_cars', [CarController::class,'favourite_cars'])->name('favourite_cars')->middleware('verified');
     Route::delete('/favourite_cars/{car}/delete', [CarController::class, 'deleteFavouriteCar'])->name('deleteFavouriteCar');
     Route::post('/favourite_cars/{car}/create', [CarController::class, 'createFavouriteCar'])->name('createFavouriteCar');
 });
