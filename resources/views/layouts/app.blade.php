@@ -2,7 +2,7 @@
 
 <x-base-layout :$title>
     <x-layouts.header />
-        @session('success')
+        {{-- @session('success')
         <div class="container my-large">
             <div class="success-message"> {{ $value }} </div>
         </div>
@@ -11,6 +11,6 @@
         <div class="container my-large">
             <div class="err-message"> {{ $value }} </div>
         </div>
-        @endsession
+        @endsession --}}
     {{$slot}}
 </x-base-layout>

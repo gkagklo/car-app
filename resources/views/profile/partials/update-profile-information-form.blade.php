@@ -1,4 +1,4 @@
-<section>
+{{-- <section>
     <header>
         <h2 class="text-lg font-medium text-gray-900">
             {{ __('Profile Information') }}
@@ -61,4 +61,36 @@
             @endif
         </div>
     </form>
-</section>
+</section> --}}
+
+
+<form method="post" action="{{ route('profile.update') }}" class="card p-large my-large">
+    @csrf
+    @method('patch')
+    <div class="form-group @error('name') has-error @enderror">
+        <label>Name</label>
+        <input type="text" name="name" placeholder="Your Name" value="{{ $user->name }}"/>
+        @error('name')
+            <p class="error-message">{{ $message }}</p>
+        @enderror
+    </div>
+    <div class="form-group @error('email') has-error @enderror">
+        <label>Email</label>
+        <input type="email" name="email" placeholder="Your Email" value="{{ $user->email }}" />
+        @error('email')
+            <p class="error-message">{{ $message }}</p>
+        @enderror
+    </div>
+    <div class="form-group @error('phone') has-error @enderror">
+        <label>Phone</label>
+        <input type="text" name="phone" placeholder="Your Phone" value="{{ $user->phone }}"/>
+        @error('phone')
+            <p class="error-message">{{ $message }}</p>
+        @enderror
+    </div>
+    <div class="p-medium">
+        <div class="flex justify-end gap-1">
+            <button class="btn btn-primary">Update</button>
+        </div>
+    </div>
+</form>

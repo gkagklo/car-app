@@ -18,7 +18,7 @@ Route::resource('cars', CarController::class)->only('show', 'create');
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('cars', CarController::class)->except('show')->middleware('verified');
     Route::get('/cars/{car}/edit/car_images', [CarController::class,'editCarImages'])->name('car_images')->middleware('verified');
     Route::put('/cars/{car}/edit/car_images/update', [CarController::class, 'updateCarImages'])->name('updateCarImages')->middleware('verified');

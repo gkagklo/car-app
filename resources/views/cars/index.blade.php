@@ -16,7 +16,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    @foreach($my_cars as $my_car)
+                    @forelse($my_cars as $my_car)
                       <tr>
                         <td>
                           <img
@@ -97,7 +97,13 @@
                           </form>
                         </td>
                       </tr>
-                    @endforeach
+                      @empty
+                      <tr>
+                        <td colspan="5">
+                          <p class="text-center">No cars found!</p>
+                        </td>
+                      </tr>
+                    @endforelse
                   </tbody>
                 </table>
               </div>

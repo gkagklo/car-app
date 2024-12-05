@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\FavouriteCars;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\File;
 
 class ProfileController extends Controller
 {
@@ -34,8 +36,8 @@ class ProfileController extends Controller
 
         $request->user()->save();
 
-        // return Redirect::route('profile.edit')->with('status', 'profile-updated');
-        return redirect()->route('profile.edit')->with('success','Profile updated successfully');
+        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        // return redirect()->route('profile.edit')->with('success','Profile updated successfully');
     }
 
     /**
@@ -43,11 +45,33 @@ class ProfileController extends Controller
      */
     public function destroy(Request $request): RedirectResponse
     {
+        
         $request->validateWithBag('userDeletion', [
             'password' => ['required', 'current_password'],
         ]);
 
         $user = $request->user();
+
+        $user_favourite_cars = FavouriteCars::where('user_id', $user->id)->get();
+        foreach($user_favourite_cars as $user_favourite_car){
+            $user_favourite_car->delete();
+        }
+
+        $cars = $user->cars;
+        foreach($cars as $car){
+            $images = $car->images;
+            foreach($images as $image){
+                $file_path = public_path().'/images/'.$image->name;
+                File::delete($file_path);
+            }
+            $car->images()->delete();
+            $car->carFeature()->delete();
+            $favourite_cars = FavouriteCars::where('car_id', $car->id)->get();
+            foreach($favourite_cars as $favourite_car){
+                $favourite_car->delete();
+            }
+            $car->delete();
+        }
 
         Auth::logout();
 

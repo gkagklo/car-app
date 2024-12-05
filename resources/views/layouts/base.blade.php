@@ -23,6 +23,8 @@
       referrerpolicy="no-referrer"
     />
     <link rel="stylesheet" href="/css/app.css" />
+    <!-- Scripts -->
+    @vite(['resources/js/app.js'])
   </head>
   <body @if($bodyClass)class="{{ $bodyClass }}"@endif>
 

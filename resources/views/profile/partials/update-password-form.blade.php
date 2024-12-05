@@ -1,4 +1,4 @@
-<section>
+{{-- <section>
     <header>
         <h2 class="text-lg font-medium text-gray-900">
             {{ __('Update Password') }}
@@ -45,4 +45,32 @@
             @endif
         </div>
     </form>
-</section>
+</section> --}}
+
+<form method="post" action="{{ route('password.update') }}" class="card p-large my-large">
+    @csrf
+    @method('put')
+    <div class="form-group @error('current_password', 'updatePassword') has-error @enderror">
+        <label>Current Password</label>
+        <input type="password" name="current_password" placeholder="Current Password" />
+        @error('current_password', 'updatePassword')
+            <p class="error-message">{{ $message }}</p>
+        @enderror
+    </div>
+    <div class="form-group @error('password', 'updatePassword') has-error @enderror">
+        <label>New Password</label>
+        <input type="password" name="password" placeholder="New Password" />
+        @error('password', 'updatePassword')
+            <p class="error-message">{{ $message }}</p>
+        @enderror
+    </div>
+    <div class="form-group">
+        <label>Repeat Password</label>
+        <input type="password" name="password_confirmation" placeholder="Repeat Password" />                   
+    </div>
+    <div class="p-medium">
+        <div class="flex justify-end gap-1">
+            <button class="btn btn-primary">Update Password</button>
+        </div>
+    </div>
+</form>

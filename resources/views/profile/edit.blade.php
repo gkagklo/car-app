@@ -28,66 +28,30 @@
     </div> --}}
     <main>
         <div class="container-small">
-            <h1 class="car-details-page-title">My Profile</h1>
-            <form method="post" action="{{ route('profile.update') }}" class="card p-large my-large">
-                @csrf
-                @method('patch')
-                <div class="form-group @error('name') has-error @enderror">
-                    <label>Name</label>
-                    <input type="text" name="name" placeholder="Your Name" value="{{ $user->name }}"/>
-                    @error('name')
-                        <p class="error-message">{{ $message }}</p>
-                    @enderror
-                </div>
-                <div class="form-group @error('email') has-error @enderror">
-                    <label>Email</label>
-                    <input type="email" name="email" placeholder="Your Email" value="{{ $user->email }}" />
-                    @error('email')
-                        <p class="error-message">{{ $message }}</p>
-                    @enderror
-                </div>
-                <div class="form-group @error('phone') has-error @enderror">
-                    <label>Phone</label>
-                    <input type="text" name="phone" placeholder="Your Phone" value="{{ $user->phone }}"/>
-                    @error('phone')
-                        <p class="error-message">{{ $message }}</p>
-                    @enderror
-                </div>
-                <div class="p-medium">
-                    <div class="flex justify-end gap-1">
-                        <button class="btn btn-primary">Update</button>
-                    </div>
-                </div>
-            </form>
-
-            <form method="post" action="{{ route('password.update') }}" class="card p-large my-large">
-                @csrf
-                @method('put')
-                <div class="form-group @error('current_password', 'updatePassword') has-error @enderror">
-                    <label>Current Password</label>
-                    <input type="password" name="current_password" placeholder="Current Password" />
-                    @error('current_password', 'updatePassword')
-                        <p class="error-message">{{ $message }}</p>
-                    @enderror
-                </div>
-                <div class="form-group @error('password', 'updatePassword') has-error @enderror">
-                    <label>New Password</label>
-                    <input type="password" name="password" placeholder="New Password" />
-                    @error('password', 'updatePassword')
-                        <p class="error-message">{{ $message }}</p>
-                    @enderror
-                </div>
-                <div class="form-group">
-                    <label>Repeat Password</label>
-                    <input type="password" name="password_confirmation" placeholder="Repeat Password" />                   
-                </div>
-                <div class="p-medium">
-                    <div class="flex justify-end gap-1">
-                        <button class="btn btn-primary">Update Password</button>
-                    </div>
-                </div>
-            </form>
-
+            @if (session('status') === 'profile-updated')
+                <p
+                    x-data="{ show: true }"
+                    x-show="show"
+                    x-transition
+                    x-init="setTimeout(() => show = false, 2000)"
+                    class="success-message"
+                >{{ __('Profile updated successfully.') }}</p>
+            @endif
+            @if (session('status') === 'password-updated')
+                <p
+                    x-data="{ show: true }"
+                    x-show="show"
+                    x-transition
+                    x-init="setTimeout(() => show = false, 2000)"
+                    class="success-message"
+                >{{ __('Password updated successfully.') }}</p>
+            @endif
+            <h1 class="car-details-page-title">Profile Information</h1>
+            @include('profile.partials.update-profile-information-form')
+            <h1 class="car-details-page-title">Update Password</h1>
+            @include('profile.partials.update-password-form')
+            <h1 class="car-details-page-title">Delete Account</h1>
+            @include('profile.partials.delete-user-form')
         </div>
     </main>
 </x-app-layout>

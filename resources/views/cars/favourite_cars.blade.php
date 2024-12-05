@@ -5,7 +5,7 @@
           <div class="container">
             <h2>My Favourite Cars</h2>
             <div class="car-items-listing">
-            @foreach($favourite_cars as $favourite_car)
+            @forelse($favourite_cars as $favourite_car)
               <div class="car-item card">
                 <a href="{{ route('cars.show', $favourite_car->car->id )}}">
                   <img
@@ -43,7 +43,9 @@
                   </p>
                 </div>
               </div>
-            @endforeach 
+            @empty
+              <p class="text-center">No favourite cars found!</p>
+            @endforelse
             </div>
             
             {{ $favourite_cars->links('vendor.pagination.custom') }}

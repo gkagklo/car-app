@@ -1,4 +1,4 @@
-<section class="space-y-6">
+{{-- <section class="space-y-6">
     <header>
         <h2 class="text-lg font-medium text-gray-900">
             {{ __('Delete Account') }}
@@ -52,4 +52,44 @@
             </div>
         </form>
     </x-modal>
+</section> --}}
+
+<section class="card p-large my-large">
+
+<header>
+    <h2>Are you sure you want to delete your account?</h2>
+    <p>Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.</p>
+</header>
+
+<button class="btn btn-primary" x-data="" x-on:click.prevent="$dispatch('open-modal', 'confirm-user-deletion')">Delete</button>
+<br><br>
+<x-modal name="confirm-user-deletion" :show="$errors->userDeletion->isNotEmpty()" focusable>
+    <form method="post" action="{{ route('profile.destroy') }}">
+        @csrf
+        @method('delete')
+
+        {{-- <h2>Are you sure you want to delete your account?</h2>
+
+        <p>Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.</p> --}}
+
+        <div class="form-group @error('password', 'userDeletion') has-error @enderror">
+            <label>Password</label>
+            <input type="password" id="password" name="password" placeholder="Password" />
+            @error('password', 'userDeletion')
+                <p class="error-message">{{ $message }}</p>
+            @enderror
+        </div>
+
+        <div class="p-medium">
+            <div class="flex justify-end gap-1">
+                <button class="btn btn-default" x-on:click.prevent="$dispatch('close')">Cancel</button>
+                <button class="btn btn-primary">Delete Account</button>
+            </div>
+        </div>
+
+    </form>
+</x-modal>
+
 </section>
+
+
